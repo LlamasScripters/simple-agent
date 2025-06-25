@@ -5,6 +5,7 @@ export const weather = tool(
   async ({ ville }) => {
     try {
       const url = `https://wttr.in/${encodeURIComponent(ville)}?format=j1&lang=fr`;      
+      console.log(url);
       const response = await fetch(url, {
         headers: {
           'User-Agent': 'curl/7.68.0' 

@@ -144,6 +144,12 @@ class ChatSession {
     this.log(`URL: ${url}`);
     this.log(`Payload: ${JSON.stringify(payload, null, 2)}`);
 
+    console.group("ChatSession/makeRequest")
+    console.log("url", url);
+    console.log("headers", headers);
+    console.log("payload", payload);
+    console.groupEnd();
+
     const response = await fetch(url, {
       method: 'POST',
       headers,
@@ -421,7 +427,13 @@ async function checkApiConnection(apiUrl?: string, debug: boolean = false): Prom
       console.log(chalk.dim(`[DEBUG] Vérification de l'API à: ${baseUrl}/health`));
     }
     
+    console.group("checkApiConnection/fetch")
+    console.log("baseUrl", baseUrl);
+    console.log("headers", headers);
+    console.groupEnd();
+
     const response = await fetch(`${baseUrl}/health`, { headers });
+    console.log("response.ok", response.ok);
     
     if (response.ok) {
       console.log(chalk.green('✅ API accessible'));
@@ -431,6 +443,7 @@ async function checkApiConnection(apiUrl?: string, debug: boolean = false): Prom
       return false;
     }
   } catch (error) {
+    console.error(error);
     console.log(chalk.red(`❌ Erreur de connexion à l'API: ${error}`));
     return false;
   }
@@ -449,6 +462,11 @@ async function getAvailableAgents(apiUrl?: string): Promise<AgentConfig[]> {
   }
 
   try {
+    console.group("getAvailableAgents/fetch")
+    console.log("baseUrl", baseUrl);
+    console.log("headers", headers);
+    console.groupEnd();
+	
     const response = await fetch(`${baseUrl}/agents`, { headers });
     
     if (response.ok) {
